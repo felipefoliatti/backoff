@@ -1,6 +1,9 @@
 package backoff
 
-import "time"
+import (
+	"reflect"
+	"time"
+)
 
 // An Operation is executing by Retry() or RetryNotify().
 // The operation will be retried using a backoff policy if it returns an error.
@@ -34,7 +37,7 @@ func RetryNotify(operation Operation, b BackOff, notify Notify) error {
 
 	b.Reset()
 	for {
-		if err = operation(); err == nil {
+		if err = operation(); err == nil || reflect.ValueOf(err).IsNil() {
 			return nil
 		}
 
