@@ -38,7 +38,7 @@ func RetryNotify(operation Operation, b BackOff, notify Notify) error {
 	b.Reset()
 	for {
 		if err = operation(); err == nil || reflect.ValueOf(err).IsNil() {
-			return nil
+			return err
 		}
 
 		if permanent, ok := err.(*PermanentError); ok {
